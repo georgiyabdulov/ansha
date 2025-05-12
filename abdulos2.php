@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($sentence14)&&!empty($userInput)) {
         $randomSubstring = $sentence14[array_rand($sentence14)];
     } else { 
-        $randomSubstring = 'ошибка, маслёнок, неправильно дан запрос или нет предложения в 14 слов';
+        $randomSubstring = 'Ошибка, маслёнок, неправильно дан запрос или нет предложения в 14 слов.';
     }
 
 }
