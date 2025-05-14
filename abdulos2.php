@@ -14,58 +14,75 @@ use Smalot\PdfParser\Parser;
 
 // Load and parse the PDF
 $parser = new Parser();
-$pdf = $parser->parseFile('biboran.pdf'); // Replace with your PDF file path
+$pdf = $parser->parseFile('biboran.pdf');
 $text = $pdf->getText();
 
-// Split text into sentences using punctuation marks
+// Split into sentences
 $sentences = preg_split('/(?<=[.?!])\s+/', $text);
-
-// Clean up whitespace
 $sentences = array_map('trim', $sentences);
-
-// Optional: Remove empty sentences
 $sentences = array_filter($sentences);
-
-// Convert to indexed array
 $sentences = array_values($sentences);
+
+// Extract sentences with exactly 14 words
 $sentence14 = [];
 foreach ($sentences as $sentence) {
-    if (strlen($sentence) == 14){
+    if (str_word_count($sentence) === 14) {
         $sentence14[] = $sentence;
     }
-    
-    
-
 }
-// Handle user input and show a random substring
+
+$matchingSentences = [];
 $randomSubstring = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Example input (not used here, but collected)
     $userInput = $_POST['user_input'] ?? '';
-    
-    if (!empty($sentence14)&&!empty($userInput)) {
+    $userWords = preg_split('/\s+/', strtolower(trim($userInput)));
+
+    foreach ($sentences as $sentence) {
+        $lowerSentence = strtolower($sentence);
+        foreach ($userWords as $word) {
+            if ($word && strpos($lowerSentence, $word) !== false) {
+                $matchingSentences[] = $sentence;
+                break;
+            }
+        }
+    }
+    //считаю количество предложений, пробую без гпт//
+    $elementCount = count($matchingSentences);
+        echo "Абдуль уже говорил так " . $elementCount . ' раз';
+    if (!empty($sentence14) && !empty($userInput)) {
         $randomSubstring = $sentence14[array_rand($sentence14)];
-    } else { 
+    } else {
         $randomSubstring = 'Ошибка, маслёнок, неправильно дан запрос или нет предложения в 14 слов.';
     }
-
 }
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>PDF Substring Extractor</title>
+    <meta charset="UTF-8">
+    <title>PDF Sentence Matcher</title>
 </head>
 <body>
+    <h2>Маслёнок, попизди</h2>
     <form method="POST">
-        <label>Enter something:</label>
         <input type="text" name="user_input" required>
-        <button type="submit">Get Random Substring</button>
+        <button type="submit">Поиск</button>
     </form>
 
-    <?php if (!empty($randomSubstring)): ?>
-        <p><strong>Random 14-word substring:</strong> <?= htmlspecialchars($randomSubstring) ?></p>
+    <?php if (!empty($matchingSentences)): ?>
+        <h3>Так говорил Абдуль:</h3>
+        <ul>
+            <?php foreach ($matchingSentences as $match): ?>
+                <li><?= htmlspecialchars($match) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php elseif ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
+        <p>❌ Совпадений не найдено.</p>
     <?php endif; ?>
+
+    <h3>Случайное предложение из 14 слов:</h3>
+    <p><strong><?= htmlspecialchars($randomSubstring) ?></strong></p>
 </body>
 </html>
