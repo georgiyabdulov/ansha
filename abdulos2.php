@@ -49,6 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     //считаю количество предложений, пробую без гпт//
     $elementCount = count($matchingSentences);
+        $elementCount() = 3 || $elementCount() = 4
+        echo "Абдуль уже говорил так " . $elementCount . ' раза';
+        else
         echo "Абдуль уже говорил так " . $elementCount . ' раз';
     if (!empty($sentence14) && !empty($userInput)) {
         $randomSubstring = $sentence14[array_rand($sentence14)];
