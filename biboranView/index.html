@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PDF Sentence Matcher</title>
+</head>
+<body>
+    <h2>Маслёнок, попизди</h2>
+    <form method="POST">
+        <input type="text" name="user_input" required>
+        <button type="submit">Поиск</button>
+    </form>
+
+    <?php if (!empty($matchingSentences)): ?>
+        <h3>Так говорил Абдуль:</h3>
+        <ul>
+            <?php foreach ($data['matchingSentences'] as $match): ?>
+                <li><?= htmlspecialchars($match) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php elseif ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
+        <p>❌ Совпадений не найдено.</p>
+    <?php endif; ?>
+
+    <h3>Случайное предложение из 14 слов:</h3>
+    <p><strong><?= htmlspecialchars($data['randomSubstring']) ?></strong></p>
+</body>
+</html>
