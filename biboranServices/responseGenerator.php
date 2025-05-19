@@ -1,16 +1,37 @@
 <?php 
-function GenerateResponse (string $randomSubstring, array $matchingSentences)
- $matchingSentences = [];
-    $randomSubstring = '';
-    $userInput = $_POST['user_input'] ?? '';
-    $userWords = preg_split('/\s+/', strtolower(trim($userInput)));
+function generateResponseData(array $sentences, string $userInput): array {
+   
+    $errorMessage = '';
+    $matchingSentences = [];
+    $randomSentence = '';
 
-    foreach ($sentences as $sentence) {
-        $lowerSentence = strtolower($sentence);
-        foreach ($userWords as $word) {
-            if ($word && strpos($lowerSentence, $word) !== false) {
-                $matchingSentences[] = $sentence;
-                break;
+    if (!empty($sentences)) {
+        $randomSentence = $sentences[array_rand($sentences)];
+        $userInputByWords = preg_split('/\s+/', mb_strtolower(trim($userInput), 'UTF-8'));
+        
+        $userInputByWords = array_filter($userInputByWords);
+
+        if (!empty($userInputByWords)) {
+            foreach ($sentences as $sentence) {
+                foreach ($userInputByWords as $word) {
+                    $lowerString = mb_strtolower($sentence, 'UTF-8');
+                    if (strpos($lowerString, $word) !== false) {
+                        $matchingSentences[] = $sentence;
+                        break;
+                    }
+                }
             }
+        } else {
+            $errorMessage = '$userInput is Empty';
         }
+    } else {
+        $errorMessage = '$sentences is Empty';
     }
+
+    return [
+        'randomSentence' => $randomSentence,
+        'matchingSentences' => $matchingSentences,
+        'errorMessage' => $errorMessage
+    ];
+}
+  
