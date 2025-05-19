@@ -15,7 +15,7 @@
     <?php if (!empty($matchingSentences)): ?>
         <h3>Так говорил Абдуль:</h3>
         <ul>
-            <?php foreach ($data['matchingSentences'] as $match): ?>
+            <?php foreach ($matchingSentences as $match): ?>
                 <li><?= htmlspecialchars($match) ?></li>
             <?php endforeach; ?>
         </ul>
@@ -24,6 +24,6 @@
     <?php endif; ?>
 
     <h3>Случайное предложение из 14 слов:</h3>
-    <p><strong><?= htmlspecialchars($data['randomSubstring']) ?></strong></p>
+    <p><strong><?= htmlspecialchars($randomSubstring) ?></strong></p>
 </body>
 </html>
