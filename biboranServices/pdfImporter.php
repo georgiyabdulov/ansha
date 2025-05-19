@@ -5,7 +5,7 @@ require 'vendor/autoload.php';
 
 use Smalot\PdfParser\Parser;
 
-function convertPdfFilesToString (array $fileNames):string {
+function convertPdfFilesToString(array $fileNames):string {
     $parser = new Parser();
 
     $text = '';

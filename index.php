@@ -19,10 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $sentences = parseBySentences($text);
 
+    // @todo: expand to a separate module
+    // e.g. In the module the user input should be validated for further calculations 
     $userInput = $_POST['user_input'] ?? '';
 
-    // response generator
-//    $data = generateResponseData($sentences, $userInput);
+    // response data generator
+    $data = generateResponseData($sentences, $userInput);
 }
 
 

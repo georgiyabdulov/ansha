@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sentences = parseBySentences($text);
 
     $matchingSentences = [];
-    $randomSubstring = '';
+    $randomSentence = '';
 
 
     $userInput = $_POST['user_input'] ?? '';
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     if (isset($sentences['error']) || empty($userInput)) {
-        $randomSubstring = $sentences['error'];
+        $randomSentence = $sentences['error'];
     }
 }
 

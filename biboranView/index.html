@@ -12,18 +12,27 @@
         <button type="submit">Поиск</button>
     </form>
 
-    <?php if (!empty($matchingSentences)): ?>
+    <?php if (!empty($data['matchingSentences'])): ?>
         <h3>Так говорил Абдуль:</h3>
         <ul>
-            <?php foreach ($matchingSentences as $match): ?>
+            <?php foreach ($data['matchingSentences'] as $match): ?>
                 <li><?= htmlspecialchars($match) ?></li>
             <?php endforeach; ?>
         </ul>
+
     <?php elseif ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
         <p>❌ Совпадений не найдено.</p>
     <?php endif; ?>
 
-    <h3>Случайное предложение из 14 слов:</h3>
-    <p><strong><?= htmlspecialchars($randomSubstring) ?></strong></p>
+    <?php if (!empty($data['randomSentence'])): ?>
+        <h3>Случайное предложение:</h3>
+        <p><strong><?= htmlspecialchars($data['randomSentence']) ?></strong></p>
+    <?php endif; ?>
+
+    <?php if (!empty($data['errorMessage'])): ?>
+        <h3 style="color:red;">!!!!!!   ERROR    !!!!!</h3>
+        <p style="color:red;"><strong><?= htmlspecialchars($data['errorMessage']) ?></strong></p>
+    <?php endif; ?>
+
 </body>
 </html>
