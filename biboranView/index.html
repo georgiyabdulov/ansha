@@ -36,3 +36,71 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Timezone Clock</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    select, button { font-size: 16px; margin-top: 10px; }
+    #time { margin-top: 20px; font-size: 24px; color: #333; }
+  </style>
+</head>
+<body>
+
+  <h2>Select Your Timezone</h2>
+  <select id="timezoneSelect"></select>
+  <div id="time">Time will appear here</div>
+
+  <script>
+    const timezoneSelect = document.getElementById('timezoneSelect');
+    const timeDisplay = document.getElementById('time');
+
+    // List of common timezones (you can expand this)
+    const timezones = [
+      'UTC',
+      'Europe/London',
+      'Europe/Moscow',
+      'Asia/Almaty',
+      'Asia/Aqtobe',
+      'Asia/Tokyo',
+      'America/New_York',
+      'Australia/Sydney'
+    ];
+
+    // Populate the select dropdown
+    timezones.forEach(tz => {
+      const option = document.createElement('option');
+      option.value = tz;
+      option.textContent = tz;
+      timezoneSelect.appendChild(option);
+    });
+
+    // Update the time display
+    function updateTime() {
+      const tz = timezoneSelect.value;
+      const now = new Date();
+
+      // Use Intl.DateTimeFormat to convert time to selected timezone
+      const formatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: tz,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      });
+
+      timeDisplay.textContent = `Current time in ${tz}: ${formatter.format(now)}`;
+    }
+
+    timezoneSelect.addEventListener('change', updateTime);
+    timezoneSelect.value = 'Asia/Almaty'; // Default selection
+    updateTime(); // Show initial time
+    setInterval(updateTime, 1000); // Live update every second
+  </script>
+
+</body>
+</html>
