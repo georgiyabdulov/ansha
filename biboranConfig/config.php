@@ -9,4 +9,5 @@ return [
     ],
     'wordCount' => 15,
     'biboranViewFileName' => 'biboranView/index.html', 
+    'bannedWords' => ['хуй', 'пизд', 'ёб', 'бля', 'ебать'],
 ];

@@ -1,21 +1,25 @@
 <?php 
-function generateResponseData(array $sentences, string $userInput): array {
-   
+require 'censor.php';
+function generateResponseData(array $sentences, string $userInput, array $bannedWords): array {
+   //объявляются пременные//
     $errorMessage = '';
     $matchingSentences = [];
     $randomSentence = '';
+    
 
     if (!empty($sentences)) {
         $randomSentence = $sentences[array_rand($sentences)];
+        //превращает userInput в массив слов, разделяя строку с помощью регулярного выражения//
         $userInputByWords = preg_split('/\s+/', mb_strtolower(trim($userInput), 'UTF-8'));
         
         $userInputByWords = array_filter($userInputByWords);
 
         if (!empty($userInputByWords)) {
             foreach ($sentences as $sentence) {
+                $lowerString = mb_strtolower($sentence, 'UTF-8');
                 foreach ($userInputByWords as $word) {
-                    $lowerString = mb_strtolower($sentence, 'UTF-8');
                     if (strpos($lowerString, $word) !== false) {
+                        $sentence = censor($sentence, $bannedWords);
                         $matchingSentences[] = $sentence;
                         break;
                     }

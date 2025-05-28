@@ -14,6 +14,8 @@ require 'biboranServices/responseGenerator.php';
 
 require 'biboranServices/userInputValidator.php';
 
+// require 'biboranServices/censor.php';
+
 $config = require 'biboranConfig/config.php';
 
 use Smalot\PdfParser\Parser;
@@ -27,9 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // @todo: expand to a separate module
     // e.g. In the module the user input should be validated for further calculations 
     $userInput = userInputValidator($_POST['user_input']);
+    $userInput = censor($_POST['user_input'], $config['bannedWords']);
 
     // response data generator
-    $data = generateResponseData($sentences, $userInput);
+    $data = generateResponseData($sentences, $userInput, $config['bannedWords']);
 }
 
 
