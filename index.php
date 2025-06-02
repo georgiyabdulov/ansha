@@ -39,6 +39,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if (file_exists($config['biboranViewFileName'])) {
     include $config['biboranViewFileName'];
 }
+/*
+to do
+brainrot translator of Abdul
+random word in sentence replace with brainrot word
+or
+randomly add brainrot word in sentence
+*/
 
 
 

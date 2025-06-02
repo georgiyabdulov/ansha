@@ -1,15 +1,13 @@
 <?php
-    
-    function censor(string $string, array $bannedWords): string {
-        foreach ($bannedWords as $word)  {
-                $lengthOfBannedWord = strlen($word);
-                $symbol = '*';
-                $symbols = str_repeat($symbol, $lengthOfBannedWord);
-            if (strpos($string, $word) !== false) {
-                $string = str_replace($word, $symbols, $string);    
-            }    
-        }
-        return $string;
+function censor($text, $badWords) {
+    foreach ($badWords as $word) {
+        $pattern = '/' . preg_quote($word, '/') . '/iu'; // 'i' = case-insensitive, 'u' = UTF-8
+        $text = preg_replace_callback($pattern, function($match) {
+            return str_repeat('*', mb_strlen($match[0], 'UTF-8'));
+        }, $text);
     }
+    return $text;
+}
+
 
 ?>
